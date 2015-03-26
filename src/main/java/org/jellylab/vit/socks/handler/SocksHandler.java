@@ -19,11 +19,15 @@ import org.jellylab.vit.IntranetTunnelConnection;
 import org.jellylab.vit.SocksConnection;
 import org.jellylab.vit.tunnel.IntranetTunnel;
 import org.jellylab.vit.tunnel.handler.IntranetTunnelRelayHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author jinli Mar 24, 2015
  */
 public class SocksHandler extends SimpleChannelInboundHandler<SocksRequest> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SocksHandler.class);
 
     private IntranetTunnel intranetTunnel;
 
@@ -40,10 +44,12 @@ public class SocksHandler extends SimpleChannelInboundHandler<SocksRequest> {
         case INIT:
             ctx.pipeline().addFirst(new SocksCmdRequestDecoder());
             ctx.writeAndFlush(new SocksInitResponse(SocksAuthScheme.NO_AUTH));
+            LOGGER.debug("sokcs init. remote address: {}", ctx.channel().remoteAddress());
             break;
         case AUTH:
             ctx.pipeline().addFirst(new SocksAuthRequestDecoder());
             ctx.writeAndFlush(new SocksAuthResponse(SocksAuthStatus.SUCCESS));
+            LOGGER.debug("sokcs auth. remote address: {}", ctx.channel().remoteAddress());
             break;
         case CMD:
             // tcp only
@@ -51,6 +57,7 @@ public class SocksHandler extends SimpleChannelInboundHandler<SocksRequest> {
             if (SocksCmdType.CONNECT != req.cmdType()) {
                 ctx.close();
             }
+            LOGGER.debug("sokcs auth. remote address: {}", ctx.channel().remoteAddress());
 
             IntranetTunnelConnection tunnelConn = intranetTunnel.borrowIntranetTunnelConnection(req.host(), req.port());
             if (tunnelConn == null) {
