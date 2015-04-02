@@ -13,7 +13,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 import org.jellylab.vit.VitServer;
-import org.jellylab.vit.socks.handler.SocksHandler;
+import org.jellylab.vit.socks.handler.SocksController;
 import org.jellylab.vit.tunnel.IntranetTunnel;
 
 /**
@@ -42,9 +42,9 @@ public class SocksServer implements VitServer {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ChannelPipeline cp = ch.pipeline();
-                cp.addLast(new SocksInitRequestDecoder());
                 cp.addLast(new SocksMessageEncoder());
-                cp.addLast(new SocksHandler(intranetTunnel));
+                cp.addLast(new SocksInitRequestDecoder());
+                cp.addLast(new SocksController(intranetTunnel));
             }
         });
         b.bind(port).sync();

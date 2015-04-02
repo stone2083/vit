@@ -25,13 +25,13 @@ import org.slf4j.LoggerFactory;
 /**
  * @author jinli Mar 24, 2015
  */
-public class SocksHandler extends SimpleChannelInboundHandler<SocksRequest> {
+public class SocksController extends SimpleChannelInboundHandler<SocksRequest> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SocksHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SocksController.class);
 
     private IntranetTunnel intranetTunnel;
 
-    public SocksHandler(IntranetTunnel intranetTunnel) {
+    public SocksController(IntranetTunnel intranetTunnel) {
         this.intranetTunnel = intranetTunnel;
     }
 
