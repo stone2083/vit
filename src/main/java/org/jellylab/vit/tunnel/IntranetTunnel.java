@@ -20,6 +20,10 @@ public class IntranetTunnel {
         return singleton;
     }
 
+    public boolean auth(String eip, int eport, String sign) {
+        return true;
+    }
+
     public void addIntranetTunnelConnection(IntranetTunnelConnection conn) {
         conn.setIntranetTunnel(this);
         conns.add(conn);

@@ -27,8 +27,8 @@ public class SocksServerTest {
             public void run() {
                 while (true) {
                     try {
-                        //                        LOGGER.info("tunnel conns: {}; tunnel idles: {}", intranetTunnel.getConns().size(),
-                        //                                intranetTunnel.getIdles().size());
+                        LOGGER.info("tunnel conns: {}; tunnel idles: {}", intranetTunnel.getConns().size(),
+                                intranetTunnel.getIdles().size());
 
                         if (intranetTunnel.getConns().size() < 5) {
                             IntranetTunnelConnection conn = new IntranetTunnelConnection();

@@ -11,11 +11,13 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 import org.jellylab.vit.VitServer;
+import org.jellylab.vit.tunnel.handler.IntranetTunnelController;
+import org.jellylab.vit.tunnel.handler.IntranetTunnelInitDecoder;
+import org.jellylab.vit.tunnel.handler.IntranetTunnelResponseEncoder;
 
 /**
  * @author jinli Mar 26, 2015
  */
-@SuppressWarnings("unused")
 public class IntranetTunnelServer implements VitServer {
 
     private int port;
@@ -39,7 +41,9 @@ public class IntranetTunnelServer implements VitServer {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ChannelPipeline cp = ch.pipeline();
-
+                cp.addLast(new IntranetTunnelResponseEncoder());
+                cp.addLast(new IntranetTunnelInitDecoder());
+                cp.addLast(new IntranetTunnelController(intranetTunnel));
             }
         });
         b.bind(port).sync();
@@ -50,6 +54,18 @@ public class IntranetTunnelServer implements VitServer {
     public void shutdown() throws Exception {
         boss.shutdownGracefully().sync();
         worker.shutdownGracefully().sync();
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public EventLoopGroup getBoss() {
+        return boss;
+    }
+
+    public EventLoopGroup getWorker() {
+        return worker;
     }
 
 }

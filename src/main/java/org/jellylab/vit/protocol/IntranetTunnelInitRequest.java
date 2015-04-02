@@ -1,5 +1,9 @@
 package org.jellylab.vit.protocol;
 
+import io.netty.buffer.ByteBuf;
+
+import org.jellylab.vit.utils.ProtocolUtil;
+
 /**
  * @author jinli Apr 2, 2015
  */
@@ -32,6 +36,7 @@ public class IntranetTunnelInitRequest extends IntranetTunnelRequest {
     }
 
     public void setEip(String eip) {
+
         this.eip = eip;
     }
 
@@ -49,6 +54,22 @@ public class IntranetTunnelInitRequest extends IntranetTunnelRequest {
 
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    @Override
+    public void encode(ByteBuf byteBuf) {
+        byteBuf.writeByte(version.byteValue());
+        byteBuf.writeByte(addressType.byteValue());
+        byteBuf.writeInt(ProtocolUtil.ipv4ToInt(eip));
+        byteBuf.writeShort(eport);
+        byteBuf.writeByte(sign.length());
+        byteBuf.writeBytes(sign.getBytes());
+    }
+
+    @Override
+    public String toString() {
+        return "IntranetTunnelInitRequest [version=" + version + ", addressType=" + addressType + ", eip=" + eip
+                + ", eport=" + eport + ", sign=" + sign + "]";
     }
 
 }

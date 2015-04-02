@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.jellylab.vit.protocol.IntranetTunnelAddressType;
@@ -42,11 +43,11 @@ public class IntranetTunnelInitDecoder extends ReplayingDecoder<State> {
             }
             checkpoint(State.ADDRESS);
         case ADDRESS:
-            msg.setEip(ProtocolUtil.toIpv4(in.readInt()));
+            msg.setEip(ProtocolUtil.intToIpv4(in.readInt()));
             msg.setEport(in.readUnsignedShort());
             checkpoint(State.SIGN);
         case SIGN:
-            msg.setSign(in.readBytes(in.readByte()).toString());
+            msg.setSign(in.readBytes(in.readByte()).toString(Charset.forName("UTF-8")));
         }
         ctx.pipeline().remove(this);
         out.add(msg);

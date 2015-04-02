@@ -3,9 +3,9 @@ package org.jellylab.vit.protocol;
 /**
  * @author jinli Apr 2, 2015
  */
-public abstract class IntranetTunnelRequest {
+public abstract class IntranetTunnelRequest extends IntranetTunnelMessage {
 
-    private IntranetTunnelRequestType requestType;
+    private IntranetTunnelRequestType requestType = IntranetTunnelRequestType.UNKNOWN;
 
     public IntranetTunnelRequestType getRequestType() {
         return requestType;
@@ -16,6 +16,7 @@ public abstract class IntranetTunnelRequest {
     }
 
     public static enum IntranetTunnelRequestType {
-        INIT;   // init
+        INIT,           // init
+        UNKNOWN;        // unknown
     }
 }
