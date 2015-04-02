@@ -8,7 +8,7 @@ public enum IntranetTunnelAddressType {
     IPv4((byte) 0x01),          // ipv4
     IPv6((byte) 0x02),          // ipv6
     DOMAIN((byte) 0x03),        // domain
-    UNKNOWN((byte) 0xff);
+    UNKNOWN((byte) 0xff);       // unknown
 
     private byte b;
 

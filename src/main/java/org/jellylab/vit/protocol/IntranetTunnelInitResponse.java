@@ -5,7 +5,7 @@ import io.netty.buffer.ByteBuf;
 /**
  * @author jinli Apr 2, 2015
  */
-public class IntranetTunnelInitResponse extends IntranetTunnelResponse {
+public class IntranetTunnelInitResponse extends IntranetTunnelMessage {
 
     private Status status;
 
