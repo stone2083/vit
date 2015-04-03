@@ -22,13 +22,13 @@ public class AgentServerRelayHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        LOGGER.debug("server read. remote address:", ctx.channel().remoteAddress());
+        LOGGER.debug("server read. remote address: {}", ctx.channel().remoteAddress());
         conn.getChannel().writeAndFlush(msg);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.debug("server closed. remote address:", ctx.channel().remoteAddress());
+        LOGGER.debug("server closed. remote address: {}", ctx.channel().remoteAddress());
     }
 
     @Override

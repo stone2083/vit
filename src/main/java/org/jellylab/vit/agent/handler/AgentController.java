@@ -27,7 +27,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.debug("agent connected. remote address:", ctx.channel().remoteAddress());
+        LOGGER.debug("agent connected. remote address: {}", ctx.channel().remoteAddress());
         TunnelInitRequest req = new TunnelInitRequest();
         req.setVersion(TunnelVersion.IntranetTunnelV1);
         req.setAddressType(TunnelAddressType.IPv4);
@@ -39,7 +39,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        LOGGER.debug("agent read. remote address:", ctx.channel().remoteAddress());
+        LOGGER.debug("agent read. remote address: {}", ctx.channel().remoteAddress());
         ByteBuf byteBuf = (ByteBuf) msg;
         if (byteBuf.readByte() == 0x00) {
             ctx.pipeline().remove(this);
