@@ -1,4 +1,4 @@
-package org.jellylab.vit.protocol;
+package org.jellylab.vit.tunnel.protocol;
 
 /**
  * @author jinli Apr 2, 2015

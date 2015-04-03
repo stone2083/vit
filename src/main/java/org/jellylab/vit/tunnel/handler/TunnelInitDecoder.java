@@ -7,11 +7,11 @@ import io.netty.handler.codec.ReplayingDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.jellylab.vit.protocol.TunnelAddressType;
-import org.jellylab.vit.protocol.TunnelInitRequest;
-import org.jellylab.vit.protocol.TunnelRequest.IntranetTunnelRequestType;
-import org.jellylab.vit.protocol.TunnelVersion;
 import org.jellylab.vit.tunnel.handler.TunnelInitDecoder.State;
+import org.jellylab.vit.tunnel.protocol.TunnelAddressType;
+import org.jellylab.vit.tunnel.protocol.TunnelInitRequest;
+import org.jellylab.vit.tunnel.protocol.TunnelVersion;
+import org.jellylab.vit.tunnel.protocol.TunnelRequest.IntranetTunnelRequestType;
 import org.jellylab.vit.utils.ProtocolUtil;
 
 /**

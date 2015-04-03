@@ -4,12 +4,12 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import org.jellylab.vit.protocol.TunnelInitRequest;
-import org.jellylab.vit.protocol.TunnelInitResponse;
-import org.jellylab.vit.protocol.TunnelInitResponse.Status;
-import org.jellylab.vit.protocol.TunnelRequest;
 import org.jellylab.vit.tunnel.Tunnel;
 import org.jellylab.vit.tunnel.TunnelConnection;
+import org.jellylab.vit.tunnel.protocol.TunnelInitRequest;
+import org.jellylab.vit.tunnel.protocol.TunnelInitResponse;
+import org.jellylab.vit.tunnel.protocol.TunnelRequest;
+import org.jellylab.vit.tunnel.protocol.TunnelInitResponse.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

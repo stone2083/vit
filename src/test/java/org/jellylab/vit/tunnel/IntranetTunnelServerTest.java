@@ -8,9 +8,9 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import org.jellylab.vit.protocol.TunnelAddressType;
-import org.jellylab.vit.protocol.TunnelInitRequest;
-import org.jellylab.vit.protocol.TunnelVersion;
+import org.jellylab.vit.tunnel.protocol.TunnelAddressType;
+import org.jellylab.vit.tunnel.protocol.TunnelInitRequest;
+import org.jellylab.vit.tunnel.protocol.TunnelVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
