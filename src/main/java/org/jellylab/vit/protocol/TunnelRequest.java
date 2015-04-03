@@ -3,7 +3,7 @@ package org.jellylab.vit.protocol;
 /**
  * @author jinli Apr 2, 2015
  */
-public abstract class IntranetTunnelRequest extends IntranetTunnelMessage {
+public abstract class TunnelRequest extends TunnelMessage {
 
     private IntranetTunnelRequestType requestType = IntranetTunnelRequestType.UNKNOWN;
 

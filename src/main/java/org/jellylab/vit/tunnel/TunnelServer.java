@@ -11,20 +11,20 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 import org.jellylab.vit.VitServer;
-import org.jellylab.vit.tunnel.handler.IntranetTunnelController;
-import org.jellylab.vit.tunnel.handler.IntranetTunnelInitDecoder;
-import org.jellylab.vit.tunnel.handler.IntranetTunnelResponseEncoder;
+import org.jellylab.vit.tunnel.handler.TunnelController;
+import org.jellylab.vit.tunnel.handler.TunnelInitDecoder;
+import org.jellylab.vit.tunnel.handler.TunnelResponseEncoder;
 
 /**
  * @author jinli Mar 26, 2015
  */
-public class IntranetTunnelServer implements VitServer {
+public class TunnelServer implements VitServer {
 
     private int port;
 
     private EventLoopGroup boss = new NioEventLoopGroup(1);
     private EventLoopGroup worker = new NioEventLoopGroup();
-    private IntranetTunnel intranetTunnel = IntranetTunnel.getIntranetTunnel();
+    private Tunnel tunnel = Tunnel.getTunnel();
 
     @Override
     public void init() throws Exception {
@@ -41,9 +41,9 @@ public class IntranetTunnelServer implements VitServer {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ChannelPipeline cp = ch.pipeline();
-                cp.addLast(new IntranetTunnelResponseEncoder());
-                cp.addLast(new IntranetTunnelInitDecoder());
-                cp.addLast(new IntranetTunnelController(intranetTunnel));
+                cp.addLast(new TunnelResponseEncoder());
+                cp.addLast(new TunnelInitDecoder());
+                cp.addLast(new TunnelController(tunnel));
             }
         });
         b.bind(port).sync();

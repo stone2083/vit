@@ -1,4 +1,4 @@
-package org.jellylab.vit.socks.handler;
+package org.jellylab.vit.tunnel.socks.handler;
 
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,10 +15,10 @@ import io.netty.handler.codec.socks.SocksCmdType;
 import io.netty.handler.codec.socks.SocksInitResponse;
 import io.netty.handler.codec.socks.SocksRequest;
 
-import org.jellylab.vit.IntranetTunnelConnection;
-import org.jellylab.vit.SocksConnection;
-import org.jellylab.vit.tunnel.IntranetTunnel;
-import org.jellylab.vit.tunnel.handler.IntranetTunnelRelayHandler;
+import org.jellylab.vit.tunnel.Tunnel;
+import org.jellylab.vit.tunnel.TunnelConnection;
+import org.jellylab.vit.tunnel.handler.TunnelRelayHandler;
+import org.jellylab.vit.tunnel.socks.SocksConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +29,9 @@ public class SocksController extends SimpleChannelInboundHandler<SocksRequest> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SocksController.class);
 
-    private IntranetTunnel intranetTunnel;
+    private Tunnel intranetTunnel;
 
-    public SocksController(IntranetTunnel intranetTunnel) {
+    public SocksController(Tunnel intranetTunnel) {
         this.intranetTunnel = intranetTunnel;
     }
 
@@ -59,7 +59,7 @@ public class SocksController extends SimpleChannelInboundHandler<SocksRequest> {
             }
             LOGGER.debug("sokcs auth. remote address: {}", ctx.channel().remoteAddress());
 
-            IntranetTunnelConnection tunnelConn = intranetTunnel.borrowIntranetTunnelConnection(req.host(), req.port());
+            TunnelConnection tunnelConn = intranetTunnel.borrowIntranetTunnelConnection(req.host(), req.port());
             if (tunnelConn == null) {
                 ctx.writeAndFlush(new SocksCmdResponse(SocksCmdStatus.FAILURE, req.addressType())).addListener(
                         ChannelFutureListener.CLOSE);
@@ -70,7 +70,7 @@ public class SocksController extends SimpleChannelInboundHandler<SocksRequest> {
             conn.setEport(req.port());
             conn.setChannel(ctx.channel());
 
-            tunnelConn.getChannel().pipeline().addFirst(new IntranetTunnelRelayHandler(conn));
+            tunnelConn.getChannel().pipeline().addFirst(new TunnelRelayHandler(conn));
             ctx.pipeline().addFirst(new SocksRelayHandler(tunnelConn));
             ctx.pipeline().remove(this);
 

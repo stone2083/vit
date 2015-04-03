@@ -1,6 +1,7 @@
 package org.jellylab.vit.agent;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -82,6 +83,13 @@ public class AgentConnectionGroup {
 
     public void setMaxConns(int maxConns) {
         this.maxConns = maxConns;
+    }
+
+    public List<InetSocketAddress> getServerAddresses() {
+        if (serverAddresses == null) {
+            serverAddresses = new ArrayList<InetSocketAddress>(0);
+        }
+        return serverAddresses;
     }
 
     public void setServerAddresses(List<InetSocketAddress> serverAddresses) {

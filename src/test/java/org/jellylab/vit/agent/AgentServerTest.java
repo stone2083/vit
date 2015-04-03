@@ -4,8 +4,8 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jellylab.vit.socks.SocksServer;
-import org.jellylab.vit.tunnel.IntranetTunnelServer;
+import org.jellylab.vit.tunnel.TunnelServer;
+import org.jellylab.vit.tunnel.socks.SocksServer;
 
 /**
  * @author jinli Apr 2, 2015
@@ -13,7 +13,7 @@ import org.jellylab.vit.tunnel.IntranetTunnelServer;
 public class AgentServerTest {
 
     public static void main(String[] args) throws Exception {
-        IntranetTunnelServer server = new IntranetTunnelServer();
+        TunnelServer server = new TunnelServer();
         server.setPort(9999);
         server.start();
 
@@ -35,9 +35,10 @@ public class AgentServerTest {
         agent.addAgentConnectionGroup(group);
 
         AgentServer agentServer = new AgentServer();
-        agentServer.setTunnelServerHost("127.0.0.1");
-        agentServer.setTunnelServerPort(9999);
+        List<InetSocketAddress> tunnelAddresses = new ArrayList<InetSocketAddress>();
+        tunnelAddresses.add(new InetSocketAddress("127.0.0.1", 9999));
         agentServer.setAgent(agent);
+        agentServer.setTunnelAddresses(tunnelAddresses);
         agentServer.init();
         agentServer.start();
     }

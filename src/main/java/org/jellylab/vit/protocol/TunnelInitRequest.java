@@ -7,27 +7,27 @@ import org.jellylab.vit.utils.ProtocolUtil;
 /**
  * @author jinli Apr 2, 2015
  */
-public class IntranetTunnelInitRequest extends IntranetTunnelRequest {
+public class TunnelInitRequest extends TunnelRequest {
 
-    private IntranetTunnelVersion version;
-    private IntranetTunnelAddressType addressType;
+    private TunnelVersion version;
+    private TunnelAddressType addressType;
     private String eip;
     private int eport;
     private String sign;
 
-    public IntranetTunnelVersion getVersion() {
+    public TunnelVersion getVersion() {
         return version;
     }
 
-    public void setVersion(IntranetTunnelVersion version) {
+    public void setVersion(TunnelVersion version) {
         this.version = version;
     }
 
-    public IntranetTunnelAddressType getAddressType() {
+    public TunnelAddressType getAddressType() {
         return addressType;
     }
 
-    public void setAddressType(IntranetTunnelAddressType addressType) {
+    public void setAddressType(TunnelAddressType addressType) {
         this.addressType = addressType;
     }
 

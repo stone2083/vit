@@ -5,9 +5,10 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import org.jellylab.vit.IntranetTunnelConnection;
-import org.jellylab.vit.tunnel.IntranetTunnel;
-import org.jellylab.vit.tunnel.handler.IntranetTunnelIdleHandler;
+import org.jellylab.vit.tunnel.Tunnel;
+import org.jellylab.vit.tunnel.TunnelConnection;
+import org.jellylab.vit.tunnel.handler.TunnelIdleHandler;
+import org.jellylab.vit.tunnel.socks.SocksServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,7 @@ public class SocksServerTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(SocksServerTest.class);
 
     public static void main(String[] args) throws Exception {
-        IntranetTunnel intranetTunnel = IntranetTunnel.getIntranetTunnel();
+        Tunnel intranetTunnel = Tunnel.getTunnel();
         SocksServer server = new SocksServer();
         new Thread(new Runnable() {
 
@@ -31,13 +32,13 @@ public class SocksServerTest {
                                 intranetTunnel.getIdles().size());
 
                         if (intranetTunnel.getConns().size() < 5) {
-                            IntranetTunnelConnection conn = new IntranetTunnelConnection();
+                            TunnelConnection conn = new TunnelConnection();
                             Bootstrap b = new Bootstrap();
                             b.group(server.getWorker());
                             b.channel(NioSocketChannel.class);
                             b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000);
                             b.option(ChannelOption.SO_KEEPALIVE, true);
-                            b.handler(new IntranetTunnelIdleHandler(conn));
+                            b.handler(new TunnelIdleHandler(conn));
                             Channel ch = b.connect("42.159.159.175", 80).sync().channel();
 
                             conn.setEip("42.159.159.175");

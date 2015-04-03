@@ -1,19 +1,16 @@
-package org.jellylab.vit;
+package org.jellylab.vit.tunnel.socks;
 
 import io.netty.channel.Channel;
-
-import org.jellylab.vit.tunnel.IntranetTunnel;
 
 /**
  * @author jinli Mar 25, 2015
  */
-public class IntranetTunnelConnection {
+public class SocksConnection {
 
     private String eip;
     private int eport;
 
     private Channel channel;
-    private IntranetTunnel intranetTunnel;
 
     public String getEip() {
         return eip;
@@ -37,14 +34,6 @@ public class IntranetTunnelConnection {
 
     public void setChannel(Channel channel) {
         this.channel = channel;
-    }
-
-    public IntranetTunnel getIntranetTunnel() {
-        return intranetTunnel;
-    }
-
-    public void setIntranetTunnel(IntranetTunnel intranetTunnel) {
-        this.intranetTunnel = intranetTunnel;
     }
 
 }

@@ -5,11 +5,11 @@ import io.netty.buffer.ByteBuf;
 /**
  * @author jinli Apr 2, 2015
  */
-public class IntranetTunnelInitResponse extends IntranetTunnelMessage {
+public class TunnelInitResponse extends TunnelMessage {
 
     private Status status;
 
-    public IntranetTunnelInitResponse(Status status) {
+    public TunnelInitResponse(Status status) {
         this.status = status;
     }
 

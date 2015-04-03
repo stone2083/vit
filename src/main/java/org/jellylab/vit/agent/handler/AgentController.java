@@ -6,9 +6,9 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import org.jellylab.vit.agent.AgentConnection;
 import org.jellylab.vit.agent.AgentConnectionGroup;
-import org.jellylab.vit.protocol.IntranetTunnelAddressType;
-import org.jellylab.vit.protocol.IntranetTunnelInitRequest;
-import org.jellylab.vit.protocol.IntranetTunnelVersion;
+import org.jellylab.vit.protocol.TunnelAddressType;
+import org.jellylab.vit.protocol.TunnelInitRequest;
+import org.jellylab.vit.protocol.TunnelVersion;
 
 /**
  * @author jinli Apr 2, 2015
@@ -23,9 +23,9 @@ public class AgentController extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        IntranetTunnelInitRequest req = new IntranetTunnelInitRequest();
-        req.setVersion(IntranetTunnelVersion.IntranetTunnelV1);
-        req.setAddressType(IntranetTunnelAddressType.IPv4);
+        TunnelInitRequest req = new TunnelInitRequest();
+        req.setVersion(TunnelVersion.IntranetTunnelV1);
+        req.setAddressType(TunnelAddressType.IPv4);
         req.setEip(group.getEip());
         req.setEport(group.getEport());
         req.setSign(group.getSign());

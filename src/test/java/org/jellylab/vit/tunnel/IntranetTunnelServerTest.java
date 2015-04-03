@@ -8,9 +8,9 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import org.jellylab.vit.protocol.IntranetTunnelAddressType;
-import org.jellylab.vit.protocol.IntranetTunnelInitRequest;
-import org.jellylab.vit.protocol.IntranetTunnelVersion;
+import org.jellylab.vit.protocol.TunnelAddressType;
+import org.jellylab.vit.protocol.TunnelInitRequest;
+import org.jellylab.vit.protocol.TunnelVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public class IntranetTunnelServerTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(IntranetTunnelServerTest.class);
 
     public static void main(String[] args) throws Exception {
-        IntranetTunnelServer server = new IntranetTunnelServer();
+        TunnelServer server = new TunnelServer();
         server.setPort(9999);
         server.start();
 
@@ -35,9 +35,9 @@ public class IntranetTunnelServerTest {
 
         Channel ch = b.connect("127.0.0.1", 9999).sync().channel();
 
-        IntranetTunnelInitRequest req = new IntranetTunnelInitRequest();
-        req.setVersion(IntranetTunnelVersion.IntranetTunnelV1);
-        req.setAddressType(IntranetTunnelAddressType.IPv4);
+        TunnelInitRequest req = new TunnelInitRequest();
+        req.setVersion(TunnelVersion.IntranetTunnelV1);
+        req.setAddressType(TunnelAddressType.IPv4);
         req.setEip("250.250.250.250");
         req.setEport(80);
         req.setSign("sign");

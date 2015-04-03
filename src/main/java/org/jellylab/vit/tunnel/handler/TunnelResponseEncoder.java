@@ -1,4 +1,4 @@
-package org.jellylab.vit.agent.handler;
+package org.jellylab.vit.tunnel.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -9,7 +9,7 @@ import org.jellylab.vit.protocol.TunnelMessage;
 /**
  * @author jinli Apr 2, 2015
  */
-public class AgentInitEncoder extends MessageToByteEncoder<TunnelMessage> {
+public class TunnelResponseEncoder extends MessageToByteEncoder<TunnelMessage> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, TunnelMessage msg, ByteBuf out) throws Exception {

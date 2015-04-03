@@ -7,23 +7,23 @@ import io.netty.handler.codec.ReplayingDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.jellylab.vit.protocol.IntranetTunnelAddressType;
-import org.jellylab.vit.protocol.IntranetTunnelInitRequest;
-import org.jellylab.vit.protocol.IntranetTunnelRequest.IntranetTunnelRequestType;
-import org.jellylab.vit.protocol.IntranetTunnelVersion;
-import org.jellylab.vit.tunnel.handler.IntranetTunnelInitDecoder.State;
+import org.jellylab.vit.protocol.TunnelAddressType;
+import org.jellylab.vit.protocol.TunnelInitRequest;
+import org.jellylab.vit.protocol.TunnelRequest.IntranetTunnelRequestType;
+import org.jellylab.vit.protocol.TunnelVersion;
+import org.jellylab.vit.tunnel.handler.TunnelInitDecoder.State;
 import org.jellylab.vit.utils.ProtocolUtil;
 
 /**
  * @author jinli Apr 2, 2015
  */
-public class IntranetTunnelInitDecoder extends ReplayingDecoder<State> {
+public class TunnelInitDecoder extends ReplayingDecoder<State> {
 
-    private IntranetTunnelInitRequest msg;
+    private TunnelInitRequest msg;
 
-    public IntranetTunnelInitDecoder() {
+    public TunnelInitDecoder() {
         super(State.VERSION);
-        msg = new IntranetTunnelInitRequest();
+        msg = new TunnelInitRequest();
         msg.setRequestType(IntranetTunnelRequestType.INIT);
     }
 
@@ -31,14 +31,14 @@ public class IntranetTunnelInitDecoder extends ReplayingDecoder<State> {
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         switch (state()) {
         case VERSION:
-            msg.setVersion(IntranetTunnelVersion.valueOf(in.readByte()));
-            if (IntranetTunnelVersion.IntranetTunnelV1 != msg.getVersion()) {
+            msg.setVersion(TunnelVersion.valueOf(in.readByte()));
+            if (TunnelVersion.IntranetTunnelV1 != msg.getVersion()) {
                 break;
             }
             checkpoint(State.HEADER);
         case HEADER:
-            msg.setAddressType(IntranetTunnelAddressType.valueOf(in.readByte()));
-            if (IntranetTunnelAddressType.IPv4 != msg.getAddressType()) {
+            msg.setAddressType(TunnelAddressType.valueOf(in.readByte()));
+            if (TunnelAddressType.IPv4 != msg.getAddressType()) {
                 break;
             }
             checkpoint(State.ADDRESS);

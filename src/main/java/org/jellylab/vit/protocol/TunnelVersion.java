@@ -3,19 +3,19 @@ package org.jellylab.vit.protocol;
 /**
  * @author jinli Apr 2, 2015
  */
-public enum IntranetTunnelVersion {
+public enum TunnelVersion {
 
     IntranetTunnelV1((byte) 0x01),      // version 1
     UNKNOWN((byte) 0xff);               // version unknown
 
     private byte b;
 
-    private IntranetTunnelVersion(byte b) {
+    private TunnelVersion(byte b) {
         this.b = b;
     }
 
-    public static IntranetTunnelVersion valueOf(byte b) {
-        for (IntranetTunnelVersion code : values()) {
+    public static TunnelVersion valueOf(byte b) {
+        for (TunnelVersion code : values()) {
             if (code.b == b) {
                 return code;
             }

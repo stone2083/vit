@@ -1,4 +1,4 @@
-package org.jellylab.vit.socks;
+package org.jellylab.vit.tunnel.socks;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -13,8 +13,8 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 import org.jellylab.vit.VitServer;
-import org.jellylab.vit.socks.handler.SocksController;
-import org.jellylab.vit.tunnel.IntranetTunnel;
+import org.jellylab.vit.tunnel.Tunnel;
+import org.jellylab.vit.tunnel.socks.handler.SocksController;
 
 /**
  * @author jinli Mar 24, 2015
@@ -25,7 +25,7 @@ public class SocksServer implements VitServer {
 
     private EventLoopGroup boss = new NioEventLoopGroup(1);
     private EventLoopGroup worker = new NioEventLoopGroup();
-    private IntranetTunnel intranetTunnel = IntranetTunnel.getIntranetTunnel();
+    private Tunnel intranetTunnel = Tunnel.getTunnel();
 
     @Override
     public void init() throws Exception {

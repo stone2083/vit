@@ -9,6 +9,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.jellylab.vit.VitServer;
 import org.jellylab.vit.agent.handler.AgentController;
 import org.jellylab.vit.agent.handler.AgentInitEncoder;
@@ -18,17 +23,18 @@ import org.jellylab.vit.agent.handler.AgentInitEncoder;
  */
 public class AgentServer implements VitServer {
 
-    private String tunnelServerHost;
-    private int tunnelServerPort;
+    private List<InetSocketAddress> tunnelAddresses;
+    private AtomicLong loop = new AtomicLong(0);
 
     private Agent agent;
     private volatile boolean running = false;
 
-    private EventLoopGroup worker = new NioEventLoopGroup();
+    private EventLoopGroup worker;
+    private int nworker;
 
     @Override
     public void init() throws Exception {
-
+        worker = new NioEventLoopGroup(nworker);
     }
 
     @Override
@@ -41,26 +47,29 @@ public class AgentServer implements VitServer {
                 while (running) {
                     for (AgentConnectionGroup group : agent.getGroups()) {
                         if (group.getConnsSize() < group.getMaxConns()) {
-                            Bootstrap b = new Bootstrap();
-                            b.group(worker);
-                            b.channel(NioSocketChannel.class);
-                            b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000);
-                            b.option(ChannelOption.SO_KEEPALIVE, true);
-                            b.handler(new ChannelInitializer<SocketChannel>() {
+                            for (int i = 0; i < group.getMaxConns() - group.getConnsSize(); i++) {
+                                Bootstrap b = new Bootstrap();
+                                b.group(worker);
+                                b.channel(NioSocketChannel.class);
+                                b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000);
+                                b.option(ChannelOption.SO_KEEPALIVE, true);
+                                b.handler(new ChannelInitializer<SocketChannel>() {
 
-                                @Override
-                                protected void initChannel(SocketChannel ch) throws Exception {
-                                    ChannelPipeline cp = ch.pipeline();
-                                    cp.addLast(new AgentInitEncoder());
-                                    cp.addLast(new AgentController(group));
-                                }
-                            });
-                            b.connect(tunnelServerHost, tunnelServerPort);
+                                    @Override
+                                    protected void initChannel(SocketChannel ch) throws Exception {
+                                        ChannelPipeline cp = ch.pipeline();
+                                        cp.addLast(new AgentInitEncoder());
+                                        cp.addLast(new AgentController(group));
+                                    }
+                                });
+
+                                b.connect(getNextTunnelAddress());
+                            }
                         }
                     }
 
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                     }
                 }
@@ -74,12 +83,19 @@ public class AgentServer implements VitServer {
         running = false;
     }
 
-    public void setTunnelServerHost(String tunnelServerHost) {
-        this.tunnelServerHost = tunnelServerHost;
+    private InetSocketAddress getNextTunnelAddress() {
+        return tunnelAddresses.get((int) (Math.abs(loop.getAndIncrement()) % tunnelAddresses.size()));
     }
 
-    public void setTunnelServerPort(int tunnelServerPort) {
-        this.tunnelServerPort = tunnelServerPort;
+    public List<InetSocketAddress> getTunnelAddresses() {
+        if (tunnelAddresses == null) {
+            tunnelAddresses = new ArrayList<InetSocketAddress>();
+        }
+        return tunnelAddresses;
+    }
+
+    public void setTunnelAddresses(List<InetSocketAddress> tunnelAddresses) {
+        this.tunnelAddresses = tunnelAddresses;
     }
 
     public void setAgent(Agent agent) {
@@ -89,6 +105,10 @@ public class AgentServer implements VitServer {
 
     public EventLoopGroup getWorker() {
         return worker;
+    }
+
+    public void setNworker(int nworker) {
+        this.nworker = nworker;
     }
 
 }
