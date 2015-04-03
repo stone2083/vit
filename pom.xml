@@ -55,6 +55,7 @@
                                     <fileset dir="${project.build.directory}/libs" />
                                 </copy>
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}" todir="${project.build.directory}/release/libs" />
+                                <mkdir dir="${project.build.directory}/release/logs" />
                             </tasks>
                         </configuration>
                         <goals>
