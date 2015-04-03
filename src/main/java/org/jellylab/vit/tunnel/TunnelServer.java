@@ -21,13 +21,16 @@ import org.jellylab.vit.tunnel.handler.TunnelResponseEncoder;
 public class TunnelServer implements VitServer {
 
     private int port;
+    private int nworker;
 
-    private EventLoopGroup boss = new NioEventLoopGroup(1);
-    private EventLoopGroup worker = new NioEventLoopGroup();
+    private EventLoopGroup boss;
+    private EventLoopGroup worker;
     private Tunnel tunnel = Tunnel.getTunnel();
 
     @Override
     public void init() throws Exception {
+        boss = new NioEventLoopGroup(1);
+        worker = new NioEventLoopGroup(nworker);
     }
 
     @Override
@@ -58,6 +61,10 @@ public class TunnelServer implements VitServer {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public void setNworker(int nworker) {
+        this.nworker = nworker;
     }
 
     public EventLoopGroup getBoss() {

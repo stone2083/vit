@@ -14,6 +14,7 @@ public class AgentServerTest {
 
     public static void main(String[] args) throws Exception {
         TunnelServer server = new TunnelServer();
+        server.init();
         server.setPort(9999);
         server.start();
 

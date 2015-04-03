@@ -1,15 +1,13 @@
 package org.jellylab.vit.agent;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.net.InetSocketAddress;
 
 import org.jellylab.vit.agent.handler.AgentConfiguration;
 import org.jellylab.vit.agent.handler.AgentConfiguration.AgentAddress;
 import org.jellylab.vit.agent.handler.AgentConfiguration.ServerAddress;
 import org.jellylab.vit.agent.handler.AgentConfiguration.TunnelServerAddress;
+import org.jellylab.vit.utils.IoUtil;
 
 import com.alibaba.fastjson.JSON;
 
@@ -31,7 +29,7 @@ public class AgentServerMain {
 
         AgentConfiguration configuration;
         try {
-            configuration = JSON.parseObject(readCnf(fcnf), AgentConfiguration.class);
+            configuration = JSON.parseObject(IoUtil.read(fcnf, "utf-8"), AgentConfiguration.class);
         } catch (Exception e) {
             System.out.println("agent.cnf invalid formats.");
             return;
@@ -68,26 +66,4 @@ public class AgentServerMain {
 
     }
 
-    private static String readCnf(File cnf) {
-        InputStream in = null;
-        try {
-            in = new FileInputStream(cnf);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = in.read(buffer)) != -1) {
-                out.write(buffer, 0, len);
-            }
-            return new String(out.toByteArray());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (Exception e) {
-                }
-            }
-        }
-    }
 }

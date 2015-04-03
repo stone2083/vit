@@ -1,0 +1,25 @@
+{
+ "nworker": 0,
+
+ "tunnelServerAddresses": [
+    {
+      "host": "127.0.0.1",
+      "port": 9999
+    }
+  ],
+  
+  "agentAddresses": [
+    {
+      "sign": "sign",
+      "serverAddresses": [
+        {
+          "host": "ip.cn",
+          "port": 80
+        }
+      ],
+      "eip": "1.1.1.1",
+      "eport": 1,
+      "maxConns": 10
+    }
+  ]
+}

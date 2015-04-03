@@ -24,6 +24,7 @@ public class IntranetTunnelServerTest {
     public static void main(String[] args) throws Exception {
         TunnelServer server = new TunnelServer();
         server.setPort(9999);
+        server.init();
         server.start();
 
         Bootstrap b = new Bootstrap();

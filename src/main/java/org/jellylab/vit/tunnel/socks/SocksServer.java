@@ -22,13 +22,16 @@ import org.jellylab.vit.tunnel.socks.handler.SocksController;
 public class SocksServer implements VitServer {
 
     private int port;
+    private int nworker;
 
-    private EventLoopGroup boss = new NioEventLoopGroup(1);
-    private EventLoopGroup worker = new NioEventLoopGroup();
+    private EventLoopGroup boss;
+    private EventLoopGroup worker;
     private Tunnel intranetTunnel = Tunnel.getTunnel();
 
     @Override
     public void init() throws Exception {
+        boss = new NioEventLoopGroup(1);
+        worker = new NioEventLoopGroup(nworker);
     }
 
     @Override
@@ -66,6 +69,10 @@ public class SocksServer implements VitServer {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public void setNworker(int nworker) {
+        this.nworker = nworker;
     }
 
 }

@@ -1,0 +1,10 @@
+{
+  "tunnel": {
+    "nwoker": 0,
+    "port": 9999
+  },
+  "socks": {
+    "nwoker": 0,
+    "port": 3129
+  }
+}

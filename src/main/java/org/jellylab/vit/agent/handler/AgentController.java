@@ -45,7 +45,6 @@ public class AgentController extends ChannelInboundHandlerAdapter {
                 return;
             }
 
-
             ctx.pipeline().addFirst(new AgentRelayHandler(conn));
         } else {
             ctx.close();
