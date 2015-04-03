@@ -9,11 +9,15 @@ import org.jellylab.vit.agent.AgentConnectionGroup;
 import org.jellylab.vit.tunnel.protocol.TunnelAddressType;
 import org.jellylab.vit.tunnel.protocol.TunnelInitRequest;
 import org.jellylab.vit.tunnel.protocol.TunnelVersion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author jinli Apr 2, 2015
  */
 public class AgentController extends ChannelInboundHandlerAdapter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AgentController.class);
 
     private AgentConnectionGroup group;
 
@@ -23,6 +27,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        LOGGER.debug("agent connected. remote address:", ctx.channel().remoteAddress());
         TunnelInitRequest req = new TunnelInitRequest();
         req.setVersion(TunnelVersion.IntranetTunnelV1);
         req.setAddressType(TunnelAddressType.IPv4);
@@ -34,6 +39,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        LOGGER.debug("agent read. remote address:", ctx.channel().remoteAddress());
         ByteBuf byteBuf = (ByteBuf) msg;
         if (byteBuf.readByte() == 0x00) {
             ctx.pipeline().remove(this);
@@ -49,6 +55,16 @@ public class AgentController extends ChannelInboundHandlerAdapter {
         } else {
             ctx.close();
         }
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        LOGGER.debug("agent closed. remote address:", ctx.channel().remoteAddress());
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        ctx.close();
     }
 
 }

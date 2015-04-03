@@ -17,21 +17,21 @@ import com.alibaba.fastjson.JSON;
 public class AgentServerMain {
 
     public static void main(String[] args) {
-        String cnf = "agent.cnf";
-        if (System.getProperty("agent.cnf") != null) {
-            cnf = System.getProperty("agent.cnf");
+        String conf = "agent.conf";
+        if (System.getProperty("agent.conf") != null) {
+            conf = System.getProperty("agent.conf");
         }
-        File fcnf = new File(cnf);
-        if (!fcnf.isFile()) {
-            System.out.println("agent.cnf not found. [cnf=" + cnf + "]");
+        File fconf = new File(conf);
+        if (!fconf.isFile()) {
+            System.out.println("agent.conf not found. [conf=" + conf + "]");
             return;
         }
 
         AgentConfiguration configuration;
         try {
-            configuration = JSON.parseObject(IoUtil.read(fcnf, "utf-8"), AgentConfiguration.class);
+            configuration = JSON.parseObject(IoUtil.read(fconf, "utf-8"), AgentConfiguration.class);
         } catch (Exception e) {
-            System.out.println("agent.cnf invalid formats.");
+            System.out.println("agent.conf invalid formats.");
             return;
         }
 

@@ -13,21 +13,21 @@ import com.alibaba.fastjson.JSON;
 public class TunnelServerMain {
 
     public static void main(String[] args) {
-        String cnf = "tunnel.cnf";
-        if (System.getProperty("tunnel.cnf") != null) {
-            cnf = System.getProperty("tunnel.cnf");
+        String conf = "tunnel.conf";
+        if (System.getProperty("tunnel.conf") != null) {
+            conf = System.getProperty("tunnel.conf");
         }
-        File fcnf = new File(cnf);
-        if (!fcnf.isFile()) {
-            System.out.println("tunnel.cnf not found. [cnf=" + cnf + "]");
+        File fconf = new File(conf);
+        if (!fconf.isFile()) {
+            System.out.println("tunnel.conf not found. [conf=" + conf + "]");
             return;
         }
 
         TunnelConfiguration configuration;
         try {
-            configuration = JSON.parseObject(IoUtil.read(fcnf, "utf-8"), TunnelConfiguration.class);
+            configuration = JSON.parseObject(IoUtil.read(fconf, "utf-8"), TunnelConfiguration.class);
         } catch (Exception e) {
-            System.out.println("tunnel.cnf invalid formats.");
+            System.out.println("tunnel.conf invalid formats.");
             return;
         }
 

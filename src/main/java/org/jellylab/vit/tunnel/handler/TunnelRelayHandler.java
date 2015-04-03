@@ -38,7 +38,6 @@ public class TunnelRelayHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         LOGGER.debug("tunnel exception. remote: {}", ctx.channel().remoteAddress());
         ctx.close();
-        conn.getChannel().close();
     }
 
 }

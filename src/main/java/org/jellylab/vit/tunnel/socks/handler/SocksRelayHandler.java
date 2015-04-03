@@ -23,34 +23,20 @@ public class SocksRelayHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        LOGGER.debug("socks read. remote: {}", ctx.channel().remoteAddress());
+        LOGGER.debug("socks read. remote address: {}", ctx.channel().remoteAddress());
         conn.getChannel().writeAndFlush(msg);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.debug("socks closed. remote: {}", ctx.channel().remoteAddress());
-        if (conn.getChannel().isActive()) {
-            conn.getChannel().pipeline().remove(TunnelRelayHandler.class);
-            conn.getTunnel().returnIntranetTunnelConnection(conn);
-            return;
-        }
-        conn.getChannel().close();
-        conn.getTunnel().deleteIntranetTunnelConnection(conn);
+        LOGGER.debug("socks closed. remote address: {}", ctx.channel().remoteAddress());
+        conn.getChannel().pipeline().remove(TunnelRelayHandler.class);
+        conn.getTunnel().returnIntranetTunnelConnection(conn);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        LOGGER.debug("socks exception. remote: {}", ctx.channel().remoteAddress());
+        LOGGER.debug("socks exception. remote address: {}", ctx.channel().remoteAddress());
         ctx.close();
-
-        if (conn.getChannel().isActive()) {
-            conn.getChannel().pipeline().remove(TunnelRelayHandler.class);
-            conn.getTunnel().returnIntranetTunnelConnection(conn);
-            return;
-        }
-        conn.getChannel().close();
-        conn.getTunnel().deleteIntranetTunnelConnection(conn);
-
     }
 }

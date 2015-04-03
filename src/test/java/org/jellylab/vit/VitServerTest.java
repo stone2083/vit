@@ -9,8 +9,8 @@ import org.jellylab.vit.tunnel.TunnelServerMain;
 public class VitServerTest {
 
     public static void main(String[] args) {
-        System.setProperty("tunnel.cnf", "src/main/resources/cnf/tunnel.cnf");
-        System.setProperty("agent.cnf", "src/main/resources/cnf/agent.cnf");
+        System.setProperty("tunnel.conf", "src/main/resources/conf/tunnel.conf");
+        System.setProperty("agent.conf", "src/main/resources/conf/agent.conf");
         TunnelServerMain.main(args);
         AgentServerMain.main(args);
     }

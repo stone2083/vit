@@ -10,11 +10,15 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import java.net.InetSocketAddress;
 
 import org.jellylab.vit.agent.AgentConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author jinli Apr 3, 2015
  */
 public class AgentRelayHandler extends ChannelInboundHandlerAdapter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AgentRelayHandler.class);
 
     private AgentConnection conn;
 
@@ -24,6 +28,8 @@ public class AgentRelayHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        LOGGER.debug("agent read. remote address:", ctx.channel().remoteAddress());
+
         if (conn.getServerChannel() == null || !conn.getServerChannel().isActive()) {
             InetSocketAddress serverAddress = conn.getGroup().getNextServerAddresses();
             Bootstrap b = new Bootstrap();
@@ -34,6 +40,7 @@ public class AgentRelayHandler extends ChannelInboundHandlerAdapter {
             b.handler(new AgentServerRelayHandler(conn));
             Channel ch = b.connect(serverAddress).sync().channel();
             conn.setServerChannel(ch);
+            LOGGER.debug("server connected. remote address:", ch.remoteAddress());
         }
 
         conn.getServerChannel().writeAndFlush(msg);
@@ -41,6 +48,7 @@ public class AgentRelayHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        LOGGER.debug("agent closed. remote address:", ctx.channel().remoteAddress());
         ctx.close();
         if (conn.getServerChannel() != null) {
             conn.getServerChannel().close();
@@ -50,9 +58,6 @@ public class AgentRelayHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         ctx.close();
-        if (conn.getServerChannel() != null) {
-            conn.getServerChannel().close();
-        }
     }
 
 }

@@ -81,6 +81,13 @@ public class SocksController extends SimpleChannelInboundHandler<SocksRequest> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        LOGGER.debug("socks channel closed. remoteAddress: {}", ctx.channel().remoteAddress());
+        ctx.close();
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        LOGGER.debug("socks channel exception. remoteAddress: {}", ctx.channel().remoteAddress());
         ctx.close();
     }
 

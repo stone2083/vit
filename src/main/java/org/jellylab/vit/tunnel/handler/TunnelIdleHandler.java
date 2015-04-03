@@ -27,14 +27,14 @@ public class TunnelIdleHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        LOGGER.debug("tunnel closed. remote address: {}", ctx.channel().remoteAddress());
         conn.getChannel().close();
         conn.getTunnel().deleteIntranetTunnelConnection(conn);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        conn.getChannel().close();
-        conn.getTunnel().deleteIntranetTunnelConnection(conn);
+        ctx.close();
     }
 
 }

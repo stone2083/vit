@@ -8,8 +8,8 @@ import org.jellylab.vit.tunnel.Tunnel;
 import org.jellylab.vit.tunnel.TunnelConnection;
 import org.jellylab.vit.tunnel.protocol.TunnelInitRequest;
 import org.jellylab.vit.tunnel.protocol.TunnelInitResponse;
-import org.jellylab.vit.tunnel.protocol.TunnelRequest;
 import org.jellylab.vit.tunnel.protocol.TunnelInitResponse.Status;
+import org.jellylab.vit.tunnel.protocol.TunnelRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +38,7 @@ public class TunnelController extends SimpleChannelInboundHandler<TunnelRequest>
 
             // auth: forbidden
             if (!tunnel.auth(req.getEip(), req.getEport(), req.getSign())) {
-                ctx.writeAndFlush(new TunnelInitResponse(Status.FORBIDDEN)).addListener(
-                        ChannelFutureListener.CLOSE);
+                ctx.writeAndFlush(new TunnelInitResponse(Status.FORBIDDEN)).addListener(ChannelFutureListener.CLOSE);
             }
             // auth: ok
             else {
@@ -57,4 +56,15 @@ public class TunnelController extends SimpleChannelInboundHandler<TunnelRequest>
             break;
         }
     }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        LOGGER.debug("tunnel closed. remote address: {}", ctx.channel().remoteAddress());
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        ctx.close();
+    }
+
 }
