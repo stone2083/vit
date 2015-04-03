@@ -63,8 +63,6 @@ public class AgentServer implements VitServer {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                     }
-
-                    break;
                 }
 
             }

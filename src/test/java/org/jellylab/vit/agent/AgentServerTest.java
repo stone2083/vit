@@ -1,5 +1,10 @@
 package org.jellylab.vit.agent;
 
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jellylab.vit.socks.SocksServer;
 import org.jellylab.vit.tunnel.IntranetTunnelServer;
 
 /**
@@ -12,11 +17,19 @@ public class AgentServerTest {
         server.setPort(9999);
         server.start();
 
+        SocksServer socksServer = new SocksServer();
+        socksServer.setPort(3129);
+        socksServer.init();
+        socksServer.start();
+
         AgentConnectionGroup group = new AgentConnectionGroup();
         group.setEip("1.1.1.1");
         group.setEport(1);
         group.setSign("sign");
         group.setMaxConns(2);
+        List<InetSocketAddress> serverAddresses = new ArrayList<InetSocketAddress>();
+        serverAddresses.add(new InetSocketAddress("ip.cn", 80));
+        group.setServerAddresses(serverAddresses);
 
         Agent agent = new Agent();
         agent.addAgentConnectionGroup(group);

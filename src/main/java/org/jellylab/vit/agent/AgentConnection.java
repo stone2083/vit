@@ -9,6 +9,7 @@ public class AgentConnection {
 
     private AgentConnectionGroup group;
     private Channel channel;
+    private Channel serverChannel;
 
     public AgentConnectionGroup getGroup() {
         return group;
@@ -24,6 +25,14 @@ public class AgentConnection {
 
     public void setChannel(Channel channel) {
         this.channel = channel;
+    }
+
+    public Channel getServerChannel() {
+        return serverChannel;
+    }
+
+    public void setServerChannel(Channel serverChannel) {
+        this.serverChannel = serverChannel;
     }
 
 }

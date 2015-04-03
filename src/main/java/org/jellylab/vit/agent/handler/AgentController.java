@@ -29,13 +29,13 @@ public class AgentController extends ChannelInboundHandlerAdapter {
         req.setEip(group.getEip());
         req.setEport(group.getEport());
         req.setSign(group.getSign());
-        ctx.writeAndFlush(req);
+        ctx.writeAndFlush(req).sync();
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf byteBuf = (ByteBuf) msg;
-        if (byteBuf.readByte() == 0x01) {
+        if (byteBuf.readByte() == 0x00) {
             ctx.pipeline().remove(this);
 
             AgentConnection conn = new AgentConnection();
@@ -45,6 +45,8 @@ public class AgentController extends ChannelInboundHandlerAdapter {
                 return;
             }
 
+
+            ctx.pipeline().addFirst(new AgentRelayHandler(conn));
         } else {
             ctx.close();
         }

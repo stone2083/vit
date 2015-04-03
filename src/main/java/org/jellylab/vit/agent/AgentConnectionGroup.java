@@ -1,6 +1,6 @@
 package org.jellylab.vit.agent;
 
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -16,7 +16,7 @@ public class AgentConnectionGroup {
     private String sign;
     private int maxConns;
 
-    private List<InetAddress> addresses;
+    private List<InetSocketAddress> serverAddresses;
     private AtomicLong loop = new AtomicLong(0);
 
     private BlockingQueue<AgentConnection> conns = new LinkedBlockingDeque<AgentConnection>();
@@ -38,8 +38,8 @@ public class AgentConnectionGroup {
         return conns.size();
     }
 
-    public InetAddress getNextInetAddress() {
-        return addresses.get((int) (Math.abs(loop.getAndIncrement()) % addresses.size()));
+    public InetSocketAddress getNextServerAddresses() {
+        return serverAddresses.get((int) (Math.abs(loop.getAndIncrement()) % serverAddresses.size()));
     }
 
     public String getEip() {
@@ -72,6 +72,10 @@ public class AgentConnectionGroup {
 
     public void setMaxConns(int maxConns) {
         this.maxConns = maxConns;
+    }
+
+    public void setServerAddresses(List<InetSocketAddress> serverAddresses) {
+        this.serverAddresses = serverAddresses;
     }
 
 }
