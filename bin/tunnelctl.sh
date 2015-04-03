@@ -12,7 +12,8 @@ case $1 in
         java -cp $(echo $BASE/libs/* | tr ' ' ':') -Dtunnel.conf=$conf org.jellylab.vit.tunnel.TunnelServerMain
         ;;
     stop)
-        echo 'stop'
+        pid=$(jps | grep -i TunnelServerMain | awk '{print $1}')
+        kill -1 $pid
         ;;
     *)
         echo 'usage:
