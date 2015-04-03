@@ -84,6 +84,11 @@ public class AgentServer implements VitServer {
 
     public void setAgent(Agent agent) {
         this.agent = agent;
+        this.agent.setAgentServer(this);
+    }
+
+    public EventLoopGroup getWorker() {
+        return worker;
     }
 
 }

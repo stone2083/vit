@@ -11,6 +11,8 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class AgentConnectionGroup {
 
+    private Agent agent;
+
     private String eip;
     private int eport;
     private String sign;
@@ -40,6 +42,14 @@ public class AgentConnectionGroup {
 
     public InetSocketAddress getNextServerAddresses() {
         return serverAddresses.get((int) (Math.abs(loop.getAndIncrement()) % serverAddresses.size()));
+    }
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
     }
 
     public String getEip() {

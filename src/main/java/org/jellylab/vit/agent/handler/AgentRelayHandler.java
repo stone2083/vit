@@ -5,7 +5,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.net.InetSocketAddress;
@@ -28,8 +27,7 @@ public class AgentRelayHandler extends ChannelInboundHandlerAdapter {
         if (conn.getServerChannel() == null || !conn.getServerChannel().isActive()) {
             InetSocketAddress serverAddress = conn.getGroup().getNextServerAddresses();
             Bootstrap b = new Bootstrap();
-            // b.group(ctx.channel().eventLoop());
-            b.group(new NioEventLoopGroup());
+            b.group(conn.getGroup().getAgent().getAgentServer().getWorker());
             b.channel(NioSocketChannel.class);
             b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000);
             b.option(ChannelOption.SO_KEEPALIVE, true);

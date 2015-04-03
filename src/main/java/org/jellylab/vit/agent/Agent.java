@@ -8,6 +8,8 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 public class Agent {
 
+    private AgentServer agentServer;
+
     private BlockingQueue<AgentConnectionGroup> groups = new LinkedBlockingDeque<AgentConnectionGroup>();
 
     public BlockingQueue<AgentConnectionGroup> getGroups() {
@@ -23,11 +25,20 @@ public class Agent {
                 return;
             }
         }
+        group.setAgent(this);
         groups.add(group);
     }
 
     public void deleteAgentConnectionGroup(AgentConnectionGroup group) {
         groups.remove(group);
+    }
+
+    public AgentServer getAgentServer() {
+        return agentServer;
+    }
+
+    public void setAgentServer(AgentServer agentServer) {
+        this.agentServer = agentServer;
     }
 
 }
