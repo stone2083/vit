@@ -28,14 +28,13 @@ public class TunnelController extends SimpleChannelInboundHandler<TunnelRequest>
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TunnelRequest msg) throws Exception {
+        LOGGER.debug("tunnel read. remote address: {}", ctx.channel().remoteAddress());
         switch (msg.getRequestType()) {
         case UNKNOWN:
             ctx.close();
             break;
         case INIT:
             TunnelInitRequest req = (TunnelInitRequest) msg;
-            LOGGER.debug("IntranetTunnelInitRequest [req={}]", req);
-
             // auth: forbidden
             if (!tunnel.auth(req.getEip(), req.getEport(), req.getSign())) {
                 ctx.writeAndFlush(new TunnelInitResponse(Status.FORBIDDEN)).addListener(ChannelFutureListener.CLOSE);

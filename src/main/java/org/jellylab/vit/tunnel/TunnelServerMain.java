@@ -56,6 +56,18 @@ public class TunnelServerMain {
             }
         }
 
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    socksServer.shutdown();
+                    tunnelServer.shutdown();
+                } catch (Exception e) {
+                }
+            }
+        }));
+
     }
 
 }

@@ -9,17 +9,19 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.socks.SocksInitRequestDecoder;
 import io.netty.handler.codec.socks.SocksMessageEncoder;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 
 import org.jellylab.vit.VitServer;
 import org.jellylab.vit.tunnel.Tunnel;
 import org.jellylab.vit.tunnel.socks.handler.SocksController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author jinli Mar 24, 2015
  */
 public class SocksServer implements VitServer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SocksServer.class);
 
     private int port;
     private int nworker;
@@ -39,7 +41,6 @@ public class SocksServer implements VitServer {
         ServerBootstrap b = new ServerBootstrap();
         b.group(boss, worker);
         b.channel(NioServerSocketChannel.class);
-        b.handler(new LoggingHandler(LogLevel.INFO));
         b.childHandler(new ChannelInitializer<SocketChannel>() {
 
             @Override
@@ -51,12 +52,14 @@ public class SocksServer implements VitServer {
             }
         });
         b.bind(port).sync();
+        LOGGER.info("socks server start.");
     }
 
     @Override
     public void shutdown() throws Exception {
         boss.shutdownGracefully().sync();
         worker.shutdownGracefully().sync();
+        LOGGER.info("socks server shutdown.");
     }
 
     public EventLoopGroup getBoss() {

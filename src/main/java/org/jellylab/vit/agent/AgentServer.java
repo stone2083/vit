@@ -17,11 +17,15 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.jellylab.vit.VitServer;
 import org.jellylab.vit.agent.handler.AgentController;
 import org.jellylab.vit.agent.handler.AgentInitEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author jinli Apr 2, 2015
  */
 public class AgentServer implements VitServer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AgentServer.class);
 
     private List<InetSocketAddress> tunnelAddresses;
     private AtomicLong loop = new AtomicLong(0);
@@ -76,11 +80,14 @@ public class AgentServer implements VitServer {
 
             }
         }).start();
+        LOGGER.info("agent server start.");
     }
 
     @Override
     public void shutdown() throws Exception {
         running = false;
+        worker.shutdownGracefully().sync();
+        LOGGER.info("agent server shutdown.");
     }
 
     private InetSocketAddress getNextTunnelAddress() {

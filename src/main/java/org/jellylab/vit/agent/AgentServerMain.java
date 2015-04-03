@@ -64,6 +64,17 @@ public class AgentServerMain {
             System.out.println("init and start fail.");
         }
 
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    agentServer.shutdown();
+                } catch (Exception e) {
+                }
+            }
+        }));
+
     }
 
 }

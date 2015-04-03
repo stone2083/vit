@@ -38,6 +38,31 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <copy todir="${project.build.directory}/release/bin">
+                                    <fileset dir="${basedir}/bin" />
+                                </copy>
+                                <copy todir="${project.build.directory}/release/conf">
+                                    <fileset dir="${basedir}/src/main/resources/conf" />
+                                </copy>
+                                <copy todir="${project.build.directory}/release/libs">
+                                    <fileset dir="${project.build.directory}/libs" />
+                                </copy>
+                                <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}" todir="${project.build.directory}/release/libs" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

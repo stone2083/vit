@@ -7,18 +7,20 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 
 import org.jellylab.vit.VitServer;
 import org.jellylab.vit.tunnel.handler.TunnelController;
 import org.jellylab.vit.tunnel.handler.TunnelInitDecoder;
 import org.jellylab.vit.tunnel.handler.TunnelResponseEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author jinli Mar 26, 2015
  */
 public class TunnelServer implements VitServer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TunnelServer.class);
 
     private int port;
     private int nworker;
@@ -38,7 +40,6 @@ public class TunnelServer implements VitServer {
         ServerBootstrap b = new ServerBootstrap();
         b.group(boss, worker);
         b.channel(NioServerSocketChannel.class);
-        b.handler(new LoggingHandler(LogLevel.INFO));
         b.childHandler(new ChannelInitializer<SocketChannel>() {
 
             @Override
@@ -50,13 +51,14 @@ public class TunnelServer implements VitServer {
             }
         });
         b.bind(port).sync();
-
+        LOGGER.info("tunnel server start.");
     }
 
     @Override
     public void shutdown() throws Exception {
         boss.shutdownGracefully().sync();
         worker.shutdownGracefully().sync();
+        LOGGER.info("tunnel server shutdown.");
     }
 
     public void setPort(int port) {
