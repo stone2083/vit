@@ -50,6 +50,7 @@ public class AgentRelayHandler extends ChannelInboundHandlerAdapter {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         LOGGER.debug("agent closed. remote address: {}", ctx.channel().remoteAddress());
         ctx.close();
+        conn.getGroup().deleteAgentConnection(conn);
         if (conn.getServerChannel() != null) {
             conn.getServerChannel().close();
         }

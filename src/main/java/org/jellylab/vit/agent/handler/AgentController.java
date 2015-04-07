@@ -43,14 +43,13 @@ public class AgentController extends ChannelInboundHandlerAdapter {
         if (byteBuf.readByte() == 0x00) {
             ctx.pipeline().remove(this);
 
-            AgentConnection conn = new AgentConnection();
+            setAgentConnection(new AgentConnection());
             conn.setChannel(ctx.channel());
             if (!group.addAgentConnection(conn)) {
                 ctx.close();
                 return;
             }
 
-            this.setAgentConnection(conn);
             ctx.pipeline().addFirst(new AgentRelayHandler(conn));
         } else {
             ctx.close();
@@ -60,7 +59,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         LOGGER.debug("agent closed. remote address:", ctx.channel().remoteAddress());
-        group.deleteAgentConnection(conn);
+        conn.getGroup().deleteAgentConnection(conn);
     }
 
     @Override
