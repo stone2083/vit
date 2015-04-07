@@ -2,10 +2,10 @@ package org.jellylab.vit.misc;
 
 import java.util.ArrayList;
 
-import org.jellylab.vit.agent.handler.AgentConfiguration;
-import org.jellylab.vit.agent.handler.AgentConfiguration.AgentAddress;
-import org.jellylab.vit.agent.handler.AgentConfiguration.ServerAddress;
-import org.jellylab.vit.agent.handler.AgentConfiguration.TunnelServerAddress;
+import org.jellylab.vit.agent.AgentConfiguration;
+import org.jellylab.vit.agent.AgentConfiguration.AgentAddress;
+import org.jellylab.vit.agent.AgentConfiguration.ServerAddress;
+import org.jellylab.vit.agent.AgentConfiguration.TunnelServerAddress;
 import org.jellylab.vit.tunnel.TunnelConfiguration;
 import org.jellylab.vit.tunnel.TunnelConfiguration.Socks;
 import org.jellylab.vit.tunnel.TunnelConfiguration.Tunnel;

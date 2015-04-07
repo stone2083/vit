@@ -16,4 +16,9 @@ public class AgentInitEncoder extends MessageToByteEncoder<TunnelMessage> {
         msg.encode(out);
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        ctx.close();
+    }
+
 }

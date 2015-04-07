@@ -3,10 +3,9 @@ package org.jellylab.vit.agent;
 import java.io.File;
 import java.net.InetSocketAddress;
 
-import org.jellylab.vit.agent.handler.AgentConfiguration;
-import org.jellylab.vit.agent.handler.AgentConfiguration.AgentAddress;
-import org.jellylab.vit.agent.handler.AgentConfiguration.ServerAddress;
-import org.jellylab.vit.agent.handler.AgentConfiguration.TunnelServerAddress;
+import org.jellylab.vit.agent.AgentConfiguration.AgentAddress;
+import org.jellylab.vit.agent.AgentConfiguration.ServerAddress;
+import org.jellylab.vit.agent.AgentConfiguration.TunnelServerAddress;
 import org.jellylab.vit.utils.IoUtil;
 
 import com.alibaba.fastjson.JSON;

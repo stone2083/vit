@@ -1,4 +1,4 @@
-package org.jellylab.vit.agent.handler;
+package org.jellylab.vit.agent;
 
 import java.util.List;
 

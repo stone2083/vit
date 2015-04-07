@@ -53,6 +53,11 @@ public class TunnelInitDecoder extends ReplayingDecoder<State> {
         out.add(msg);
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        ctx.close();
+    }
+
     static enum State {
         VERSION,        // version
         HEADER,         // header
