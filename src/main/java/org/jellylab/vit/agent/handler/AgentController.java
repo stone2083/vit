@@ -6,7 +6,6 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import org.jellylab.vit.agent.AgentConnection;
 import org.jellylab.vit.agent.AgentConnectionGroup;
-import org.jellylab.vit.tunnel.protocol.TunnelAddressType;
 import org.jellylab.vit.tunnel.protocol.TunnelInitRequest;
 import org.jellylab.vit.tunnel.protocol.TunnelVersion;
 import org.slf4j.Logger;
@@ -30,7 +29,6 @@ public class AgentController extends ChannelInboundHandlerAdapter {
         LOGGER.debug("agent connected. remote address: {}", ctx.channel().remoteAddress());
         TunnelInitRequest req = new TunnelInitRequest();
         req.setVersion(TunnelVersion.IntranetTunnelV1);
-        req.setAddressType(TunnelAddressType.IPv4);
         req.setEhost(group.getEhost());
         req.setEport(group.getEport());
         req.setSign(group.getSign());

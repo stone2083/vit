@@ -1,18 +1,16 @@
 package org.jellylab.vit.tunnel.handler;
 
+import static org.jellylab.vit.utils.ProtocolUtil.ENCODING;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;
 
-import java.nio.charset.Charset;
 import java.util.List;
 
 import org.jellylab.vit.tunnel.handler.TunnelInitDecoder.State;
-import org.jellylab.vit.tunnel.protocol.TunnelAddressType;
 import org.jellylab.vit.tunnel.protocol.TunnelInitRequest;
-import org.jellylab.vit.tunnel.protocol.TunnelVersion;
 import org.jellylab.vit.tunnel.protocol.TunnelRequest.IntranetTunnelRequestType;
-import org.jellylab.vit.utils.ProtocolUtil;
+import org.jellylab.vit.tunnel.protocol.TunnelVersion;
 
 /**
  * @author jinli Apr 2, 2015
@@ -37,17 +35,13 @@ public class TunnelInitDecoder extends ReplayingDecoder<State> {
             }
             checkpoint(State.HEADER);
         case HEADER:
-            msg.setAddressType(TunnelAddressType.valueOf(in.readByte()));
-            if (TunnelAddressType.IPv4 != msg.getAddressType()) {
-                break;
-            }
             checkpoint(State.ADDRESS);
         case ADDRESS:
-            msg.setEhost(ProtocolUtil.intToIpv4(in.readInt()));
+            msg.setEhost(in.readBytes(in.readByte()).toString(ENCODING));
             msg.setEport(in.readUnsignedShort());
             checkpoint(State.SIGN);
         case SIGN:
-            msg.setSign(in.readBytes(in.readByte()).toString(Charset.forName("UTF-8")));
+            msg.setSign(in.readBytes(in.readByte()).toString(ENCODING));
         }
         ctx.pipeline().remove(this);
         out.add(msg);

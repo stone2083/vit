@@ -1,5 +1,7 @@
 package org.jellylab.vit.utils;
 
+import java.nio.charset.Charset;
+
 /**
  * @author jinli Apr 2, 2015
  */
@@ -9,6 +11,8 @@ public class ProtocolUtil {
     private static final int FIRST_ADDRESS_OCTET_SHIFT = 24;
     private static final int THIRD_ADDRESS_OCTET_SHIFT = 8;
     private static final int XOR_DEFAULT_VALUE = 0xff;
+
+    public static final Charset ENCODING = Charset.forName("UTF-8");
 
     public static String intToIpv4(int i) {
         return String.valueOf(i >> FIRST_ADDRESS_OCTET_SHIFT & XOR_DEFAULT_VALUE) + '.' // x.0.0.0

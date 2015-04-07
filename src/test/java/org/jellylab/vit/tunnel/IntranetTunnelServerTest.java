@@ -8,7 +8,6 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import org.jellylab.vit.tunnel.protocol.TunnelAddressType;
 import org.jellylab.vit.tunnel.protocol.TunnelInitRequest;
 import org.jellylab.vit.tunnel.protocol.TunnelVersion;
 import org.slf4j.Logger;
@@ -38,7 +37,6 @@ public class IntranetTunnelServerTest {
 
         TunnelInitRequest req = new TunnelInitRequest();
         req.setVersion(TunnelVersion.IntranetTunnelV1);
-        req.setAddressType(TunnelAddressType.IPv4);
         req.setEhost("250.250.250.250");
         req.setEport(80);
         req.setSign("sign");

@@ -1,8 +1,7 @@
 package org.jellylab.vit.tunnel.protocol;
 
+import static org.jellylab.vit.utils.ProtocolUtil.ENCODING;
 import io.netty.buffer.ByteBuf;
-
-import org.jellylab.vit.utils.ProtocolUtil;
 
 /**
  * @author jinli Apr 2, 2015
@@ -10,7 +9,6 @@ import org.jellylab.vit.utils.ProtocolUtil;
 public class TunnelInitRequest extends TunnelRequest {
 
     private TunnelVersion version;
-    private TunnelAddressType addressType;
     private String ehost;
     private int eport;
     private String sign;
@@ -21,14 +19,6 @@ public class TunnelInitRequest extends TunnelRequest {
 
     public void setVersion(TunnelVersion version) {
         this.version = version;
-    }
-
-    public TunnelAddressType getAddressType() {
-        return addressType;
-    }
-
-    public void setAddressType(TunnelAddressType addressType) {
-        this.addressType = addressType;
     }
 
     public String getEhost() {
@@ -59,17 +49,10 @@ public class TunnelInitRequest extends TunnelRequest {
     @Override
     public void encode(ByteBuf byteBuf) {
         byteBuf.writeByte(version.byteValue());
-        byteBuf.writeByte(addressType.byteValue());
-        byteBuf.writeInt(ProtocolUtil.ipv4ToInt(ehost));
+        byteBuf.writeByte(ehost.length()).writeBytes(ehost.getBytes(ENCODING));
         byteBuf.writeShort(eport);
         byteBuf.writeByte(sign.length());
         byteBuf.writeBytes(sign.getBytes());
-    }
-
-    @Override
-    public String toString() {
-        return "IntranetTunnelInitRequest [version=" + version + ", addressType=" + addressType + ", ehost=" + ehost
-                + ", eport=" + eport + ", sign=" + sign + "]";
     }
 
 }
