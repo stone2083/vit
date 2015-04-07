@@ -3,7 +3,6 @@ package org.jellylab.vit.tunnel.socks.handler;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.socks.SocksAddressType;
 import io.netty.handler.codec.socks.SocksAuthRequestDecoder;
 import io.netty.handler.codec.socks.SocksAuthResponse;
 import io.netty.handler.codec.socks.SocksAuthScheme;

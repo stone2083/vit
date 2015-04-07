@@ -19,6 +19,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AgentController.class);
 
     private AgentConnectionGroup group;
+    private AgentConnection conn;
 
     public AgentController(AgentConnectionGroup group) {
         this.group = group;
@@ -49,6 +50,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
                 return;
             }
 
+            this.setAgentConnection(conn);
             ctx.pipeline().addFirst(new AgentRelayHandler(conn));
         } else {
             ctx.close();
@@ -58,11 +60,16 @@ public class AgentController extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         LOGGER.debug("agent closed. remote address:", ctx.channel().remoteAddress());
+        group.deleteAgentConnection(conn);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         ctx.close();
+    }
+
+    public void setAgentConnection(AgentConnection conn) {
+        this.conn = conn;
     }
 
 }
