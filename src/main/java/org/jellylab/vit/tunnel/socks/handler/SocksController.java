@@ -3,6 +3,7 @@ package org.jellylab.vit.tunnel.socks.handler;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.socks.SocksAddressType;
 import io.netty.handler.codec.socks.SocksAuthRequestDecoder;
 import io.netty.handler.codec.socks.SocksAuthResponse;
 import io.netty.handler.codec.socks.SocksAuthScheme;
@@ -74,7 +75,7 @@ public class SocksController extends SimpleChannelInboundHandler<SocksRequest> {
             ctx.pipeline().addFirst(new SocksRelayHandler(tunnelConn));
             ctx.pipeline().remove(this);
 
-            ctx.writeAndFlush(new SocksCmdResponse(SocksCmdStatus.SUCCESS, req.addressType()));
+            ctx.writeAndFlush(new SocksCmdResponse(SocksCmdStatus.SUCCESS, req.addressType(), req.host(), req.port()));
             break;
         }
     }
