@@ -41,7 +41,7 @@ public class SocksServerTest {
                             b.handler(new TunnelIdleHandler(conn));
                             Channel ch = b.connect("42.159.159.175", 80).sync().channel();
 
-                            conn.setEip("42.159.159.175");
+                            conn.setEhost("42.159.159.175");
                             conn.setEport(80);
                             conn.setChannel(ch);
                             intranetTunnel.addIntranetTunnelConnection(conn);

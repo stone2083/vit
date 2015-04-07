@@ -31,7 +31,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
         TunnelInitRequest req = new TunnelInitRequest();
         req.setVersion(TunnelVersion.IntranetTunnelV1);
         req.setAddressType(TunnelAddressType.IPv4);
-        req.setEip(group.getEip());
+        req.setEhost(group.getEhost());
         req.setEport(group.getEport());
         req.setSign(group.getSign());
         ctx.writeAndFlush(req).sync();

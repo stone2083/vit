@@ -58,19 +58,19 @@ public class AgentConfiguration {
     }
 
     public static class AgentAddress {
-        private String eip;
+        private String ehost;
         private int eport;
         private String sign;
         private int maxConns;
 
         private List<ServerAddress> serverAddresses;
 
-        public String getEip() {
-            return eip;
+        public String getEhost() {
+            return ehost;
         }
 
-        public void setEip(String eip) {
-            this.eip = eip;
+        public void setEhost(String ehost) {
+            this.ehost = ehost;
         }
 
         public int getEport() {

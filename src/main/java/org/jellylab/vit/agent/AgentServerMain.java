@@ -37,7 +37,7 @@ public class AgentServerMain {
         Agent agent = new Agent();
         for (AgentAddress aa : configuration.getAgentAddresses()) {
             AgentConnectionGroup group = new AgentConnectionGroup();
-            group.setEip(aa.getEip());
+            group.setEhost(aa.getEhost());
             group.setEport(aa.getEport());
             group.setSign(aa.getSign());
             group.setMaxConns(aa.getMaxConns());

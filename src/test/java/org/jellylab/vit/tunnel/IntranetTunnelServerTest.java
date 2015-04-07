@@ -39,7 +39,7 @@ public class IntranetTunnelServerTest {
         TunnelInitRequest req = new TunnelInitRequest();
         req.setVersion(TunnelVersion.IntranetTunnelV1);
         req.setAddressType(TunnelAddressType.IPv4);
-        req.setEip("250.250.250.250");
+        req.setEhost("250.250.250.250");
         req.setEport(80);
         req.setSign("sign");
         ByteBuf byteBuf = ch.alloc().buffer();

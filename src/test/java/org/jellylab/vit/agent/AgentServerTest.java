@@ -24,7 +24,7 @@ public class AgentServerTest {
         socksServer.start();
 
         AgentConnectionGroup group = new AgentConnectionGroup();
-        group.setEip("1.1.1.1");
+        group.setEhost("1.1.1.1");
         group.setEport(1);
         group.setSign("sign");
         group.setMaxConns(2);

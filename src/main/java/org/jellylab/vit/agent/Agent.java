@@ -17,11 +17,11 @@ public class Agent {
     }
 
     public void addAgentConnectionGroup(AgentConnectionGroup group) {
-        if (group == null || group.getEip() == null) {
+        if (group == null || group.getEhost() == null) {
             return;
         }
         for (AgentConnectionGroup g : groups) {
-            if (g.getEip().equals(group.getEip()) && g.getEport() == group.getEport()) {
+            if (g.getEhost().equals(group.getEhost()) && g.getEport() == group.getEport()) {
                 return;
             }
         }

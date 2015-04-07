@@ -7,18 +7,18 @@ import io.netty.channel.Channel;
  */
 public class TunnelConnection {
 
-    private String eip;
+    private String ehost;
     private int eport;
 
     private Channel channel;
     private Tunnel tunnel;
 
-    public String getEip() {
-        return eip;
+    public String getEhost() {
+        return ehost;
     }
 
-    public void setEip(String eip) {
-        this.eip = eip;
+    public void setEhost(String ehost) {
+        this.ehost = ehost;
     }
 
     public int getEport() {

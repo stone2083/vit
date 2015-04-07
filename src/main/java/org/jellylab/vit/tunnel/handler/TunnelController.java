@@ -36,14 +36,14 @@ public class TunnelController extends SimpleChannelInboundHandler<TunnelRequest>
         case INIT:
             TunnelInitRequest req = (TunnelInitRequest) msg;
             // auth: forbidden
-            if (!tunnel.auth(req.getEip(), req.getEport(), req.getSign())) {
+            if (!tunnel.auth(req.getEhost(), req.getEport(), req.getSign())) {
                 ctx.writeAndFlush(new TunnelInitResponse(Status.FORBIDDEN)).addListener(ChannelFutureListener.CLOSE);
             }
             // auth: ok
             else {
                 TunnelConnection conn = new TunnelConnection();
                 conn.setChannel(ctx.channel());
-                conn.setEip(req.getEip());
+                conn.setEhost(req.getEhost());
                 conn.setEport(req.getEport());
                 tunnel.addIntranetTunnelConnection(conn);
 

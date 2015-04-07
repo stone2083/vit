@@ -37,7 +37,7 @@ public class Misc {
 
         ac.setAgentAddresses(new ArrayList<AgentAddress>());
         ac.getAgentAddresses().add(new AgentAddress());
-        ac.getAgentAddresses().get(0).setEip("1.1.1.1");
+        ac.getAgentAddresses().get(0).setEhost("1.1.1.1");
         ac.getAgentAddresses().get(0).setEport(1);
         ac.getAgentAddresses().get(0).setMaxConns(10);
         ac.getAgentAddresses().get(0).setSign("sign");

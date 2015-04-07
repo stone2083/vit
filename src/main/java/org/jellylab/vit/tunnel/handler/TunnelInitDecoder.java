@@ -43,7 +43,7 @@ public class TunnelInitDecoder extends ReplayingDecoder<State> {
             }
             checkpoint(State.ADDRESS);
         case ADDRESS:
-            msg.setEip(ProtocolUtil.intToIpv4(in.readInt()));
+            msg.setEhost(ProtocolUtil.intToIpv4(in.readInt()));
             msg.setEport(in.readUnsignedShort());
             checkpoint(State.SIGN);
         case SIGN:

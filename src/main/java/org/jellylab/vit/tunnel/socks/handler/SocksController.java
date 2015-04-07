@@ -66,7 +66,7 @@ public class SocksController extends SimpleChannelInboundHandler<SocksRequest> {
                 return;
             }
             SocksConnection conn = new SocksConnection();
-            conn.setEip(req.host());
+            conn.setEhost(req.host());
             conn.setEport(req.port());
             conn.setChannel(ctx.channel());
 

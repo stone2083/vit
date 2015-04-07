@@ -18,7 +18,7 @@ public class Tunnel {
         return singleton;
     }
 
-    public boolean auth(String eip, int eport, String sign) {
+    public boolean auth(String ehost, int eport, String sign) {
         return true;
     }
 
@@ -33,14 +33,14 @@ public class Tunnel {
         idles.remove(conn);
     }
 
-    public TunnelConnection borrowIntranetTunnelConnection(String eip, int eport) {
+    public TunnelConnection borrowIntranetTunnelConnection(String ehost, int eport) {
         if (idles.isEmpty()) {
             return null;
         }
         Iterator<TunnelConnection> it = idles.iterator();
         while (it.hasNext()) {
             TunnelConnection conn = it.next();
-            if (eip.equals(conn.getEip()) && eport == conn.getEport()) {
+            if (ehost.equals(conn.getEhost()) && eport == conn.getEport()) {
                 it.remove();
                 return conn;
             }
