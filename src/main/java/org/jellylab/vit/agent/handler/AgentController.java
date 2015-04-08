@@ -41,7 +41,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
         req.setEhost(group.getEhost());
         req.setEport(group.getEport());
         req.setSign(group.getSign());
-        ctx.writeAndFlush(req).sync();
+        ctx.writeAndFlush(req);
     }
 
     @Override

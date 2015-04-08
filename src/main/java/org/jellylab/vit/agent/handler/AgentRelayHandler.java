@@ -2,6 +2,8 @@ package org.jellylab.vit.agent.handler;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelOption;
@@ -38,12 +40,20 @@ public class AgentRelayHandler extends ChannelInboundHandlerAdapter {
             b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000);
             b.option(ChannelOption.SO_KEEPALIVE, true);
             b.handler(new AgentServerRelayHandler(conn));
-            Channel ch = b.connect(serverAddress).sync().channel();
-            conn.setServerChannel(ch);
-            LOGGER.debug("server connected. remote address: {}", ch.remoteAddress());
-        }
+            b.connect(serverAddress).addListener(new ChannelFutureListener() {
 
-        conn.getServerChannel().writeAndFlush(msg);
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    Channel ch = future.channel();
+                    conn.setServerChannel(ch);
+                    LOGGER.debug("server connected. remote address: {}", ch.remoteAddress());
+
+                    conn.getServerChannel().writeAndFlush(msg);
+                }
+            });
+        } else {
+            conn.getServerChannel().writeAndFlush(msg);
+        }
     }
 
     @Override
