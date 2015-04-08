@@ -62,7 +62,7 @@ public class AgentController extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         LOGGER.debug("agent closed. remote address:", ctx.channel().remoteAddress());
-        conn.getGroup().deleteAgentConnection(conn);
+        group.deleteAgentConnection(conn);
     }
 
     @Override
