@@ -86,7 +86,7 @@ public class SocksController extends SimpleChannelInboundHandler<SocksRequest> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        LOGGER.debug("socks channel exception. remoteAddress: {}", ctx.channel().remoteAddress());
+        LOGGER.debug("socks channel exception. remoteAddress: {}", ctx.channel().remoteAddress(), cause);
         ctx.close();
     }
 

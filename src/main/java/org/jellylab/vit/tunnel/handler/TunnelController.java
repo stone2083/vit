@@ -63,6 +63,7 @@ public class TunnelController extends SimpleChannelInboundHandler<TunnelRequest>
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        LOGGER.debug("tunnel exception. remote address: {}", ctx.channel().remoteAddress(), cause);
         ctx.close();
     }
 

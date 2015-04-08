@@ -33,6 +33,7 @@ public class AgentServerRelayHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        LOGGER.debug("server exception. remote address: {}", ctx.channel().remoteAddress(), cause);
         ctx.close();
     }
 

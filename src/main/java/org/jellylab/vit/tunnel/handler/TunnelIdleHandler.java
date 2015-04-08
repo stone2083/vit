@@ -34,6 +34,7 @@ public class TunnelIdleHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        LOGGER.debug("tunnel exception. remote address: {}", ctx.channel().remoteAddress(), cause);
         ctx.close();
     }
 

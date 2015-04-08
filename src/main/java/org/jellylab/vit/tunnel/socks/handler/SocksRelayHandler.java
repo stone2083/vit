@@ -36,7 +36,7 @@ public class SocksRelayHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        LOGGER.debug("socks exception. remote address: {}", ctx.channel().remoteAddress());
+        LOGGER.debug("socks exception. remote address: {}", ctx.channel().remoteAddress(), cause);
         ctx.close();
     }
 }
