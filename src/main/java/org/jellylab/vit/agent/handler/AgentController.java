@@ -28,6 +28,14 @@ public class AgentController extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         LOGGER.debug("agent connected. remote address: {}", ctx.channel().remoteAddress());
+        // add connection to group
+        setAgentConnection(new AgentConnection());
+        conn.setChannel(ctx.channel());
+        if (!group.addAgentConnection(conn)) {
+            ctx.close();
+            return;
+        }
+        // auth
         TunnelInitRequest req = new TunnelInitRequest();
         req.setVersion(TunnelVersion.IntranetTunnelV1);
         req.setEhost(group.getEhost());
@@ -40,18 +48,13 @@ public class AgentController extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         LOGGER.debug("agent read. remote address: {}", ctx.channel().remoteAddress());
         ByteBuf byteBuf = (ByteBuf) msg;
+        // auth success
         if (byteBuf.readByte() == 0x00) {
             ctx.pipeline().remove(this);
-
-            setAgentConnection(new AgentConnection());
-            conn.setChannel(ctx.channel());
-            if (!group.addAgentConnection(conn)) {
-                ctx.close();
-                return;
-            }
-
             ctx.pipeline().addFirst(new AgentRelayHandler(conn));
-        } else {
+        }
+        // auth fail
+        else {
             ctx.close();
         }
     }
